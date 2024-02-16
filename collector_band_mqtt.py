@@ -37,13 +37,13 @@ while True:
     sn = root.find('StationName').text
     oc = root.find('OpCall').text
 
-#Translating Hostnames
+    #Translating Hostnames
     if sn == "WINTENDO":
         msn=("DIG")
     else:
         msn=(sn)
 
-#Setting the band based on Frequency
+    #Setting the band based on Frequency
     if 100000 < freq < 300000:
        band=("160m")
     if 320000 < freq < 400000:
@@ -87,7 +87,7 @@ while True:
     client.publish(topic, f"VCE,B:20")
     client.publish(topic, f"CW,B:160m")
     client.publish(topic, f"GTA,B:40m")
-#Unsetting the band
+    #Unsetting the band
     band=("null")
 
 # Run the MQTT client loop in a non-blocking manner

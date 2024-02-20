@@ -1,11 +1,20 @@
 import socket
+import json
 import xml.etree.ElementTree as ET
 import paho.mqtt.client as mqtt
 
 # Define MQTT broker settings
 broker_address = "127.0.0.1"
 broker_port = 1883
-topic = "n1mm_radio/stations"
+topic_prefix = "n1mm_radio/stations/"
+topic = "n1mm_radio/stations/6"
+
+# Read config file
+with open("n1mm_stations.json", "r") as f:
+    config = json.load(f)
+
+# Define replacements from config file
+replacements = config.get("replacements", {})
 
 # Callback function for MQTT connection
 def on_connect(client, userdata, flags, rc):
@@ -23,11 +32,6 @@ s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
 s.bind(("", port))
 print("waiting on port:", port)
 
-freq=0
-sn=("null")
-op=("null")
-band=("null")
-
 while True:
     data, addr = s.recvfrom(1024)
     # Parse the XML string
@@ -37,14 +41,10 @@ while True:
     sn = root.find('StationName').text
     oc = root.find('OpCall').text
 
-    #Translating Hostnames
-    if sn == "WINTENDO":
-        msn=("DIG")
-        disp_pos=("1")
-    else:
-        msn=(sn)
-        msn = int(str(sn)[:3])
-        disp_pos=("6")
+    # Get replacement values from config file if available
+    replacement = replacements.get(sn, {})
+    msn = replacement.get("msn", sn)
+    disp_pos = replacement.get("disp_pos", sn)
 
     #Setting the band based on Frequency
     if 100000 < freq < 300000:
@@ -83,19 +83,17 @@ while True:
         band=("NA")
 
     # Print the value
-    print("Station Name:", sn, "|Operator:", oc, "|Frequency:", freq, "|Band:", band)
+    print("Station Name:", sn,"| Xlated Name:", msn,  "| Operator:", oc, "| Frequency:", freq, "| Band:", band)
     mfreq = int(str(freq)[:-2])
+    topic = topic_prefix + disp_pos
+
     # Publish data to MQTT broker
-    client.publish(topic, f"{msn},B:{band}")
-    client.publish(topic, f"VCE,B:20")
-    client.publish(topic, f"CW,B:160m")
-    client.publish(topic, f"GTA,B:40m")
-    #Unsetting the band
-    band=("null")
+    client.publish(topic, f"{msn},B:{band}", retain=True)
+    # Unsetting the band
+    band = "null"
 
 # Run the MQTT client loop in a non-blocking manner
 client.loop_start()
-
 
 
 

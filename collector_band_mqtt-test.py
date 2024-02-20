@@ -83,18 +83,18 @@ while True:
         band=("NA")
 
     # Print the value
-    print("Station Name:", sn, "| Operator:", oc, "| Frequency:", freq, "| Band:", band)
+    print("Station Name:", sn,"| Xlated Name:", msn,  "| Operator:", oc, "| Frequency:", freq, "| Band:", band)
     mfreq = int(str(freq)[:-2])
     topic = topic_prefix + disp_pos
 
     # Publish data to MQTT broker
-    client.publish(topic, f"{msn},B:{band}")
+    client.publish(topic, f"{msn},B:{band}", retain=True)
     #Test data to see on the little display
-    client.publish(topic_prefix + "2", f"VCE,B:20")
-    client.publish(topic_prefix + "3", f"CW,B:80")
-    client.publish(topic_prefix + "4", f"GTA,B:10")
-    client.publish(topic_prefix + "5", f"VHF,B:2")
-    client.publish(topic_prefix + "6", f"APR,B:40")
+    client.publish(topic_prefix + "2", f"VCE,B:20", retain=True)
+    client.publish(topic_prefix + "3", f" CW,B:80", retain=True)
+    client.publish(topic_prefix + "4", f"GTA,B:10", retain=True)
+    client.publish(topic_prefix + "5", f"VHF,B:2", retain=True)
+    client.publish(topic_prefix + "6", f"APR,B:40", retain=True)
     # Unsetting the band
     band = "null"
 

@@ -8,6 +8,10 @@ The loader scripts will rename each station and assign it a Station number.
 That station number will stay in the same location.
 With a 20 character wide display, you're limited to what you can display.
 
+## Display
+### Early dev and crummy video
+https://youtu.be/rcpqEqwmXFU?feature=shared
+
 ## Parts I used
 Depending how you make these, you can make them for about $10 per display.
 I'll try to add a case and pictures when I'm done

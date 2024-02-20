@@ -10,11 +10,11 @@ int lcdRows = 4;
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
 
 // Define Wi-Fi credentials
-const char* ssid = "wless-guest";
-const char* password = "abc123def456!";
+const char* ssid = "<SSID>";
+const char* password = "<Network Key>";
 
 // Define MQTT parameters
-const char* mqtt_server = "192.168.1.202";
+const char* mqtt_server = "<MQTT Server>";
 const int mqtt_port = 1883;
 const char* mqtt_topic = "n1mm_radio/stations";
 const int num_topics = 6;
@@ -30,9 +30,9 @@ String receivedMessages[num_topics];
 
 // Define NTP parameters
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "192.168.1.123", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
+NTPClient timeClient(ntpUDP, "<NTP SERVER>", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
 
-// Wi-Fi client and MQTT client
+// Wi-Fi client and MQTT client, you can change these to ID each device
 WiFiClient espClient;
 PubSubClient client(espClient);
 

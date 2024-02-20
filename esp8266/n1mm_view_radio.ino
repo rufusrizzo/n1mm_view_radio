@@ -10,11 +10,11 @@ int lcdRows = 4;
 LiquidCrystal_I2C lcd(0x27, lcdColumns, lcdRows);
 
 // Define Wi-Fi credentials
-const char* ssid = "<SSID>";
-const char* password = "<Network Key>";
+const char* ssid = "wless-guest";
+const char* password = "abc123def456!";
 
 // Define MQTT parameters
-const char* mqtt_server = "<MQTT Server>";
+const char* mqtt_server = "192.168.1.202";
 const int mqtt_port = 1883;
 const char* mqtt_topic = "n1mm_radio/stations";
 const int num_topics = 6;
@@ -30,7 +30,7 @@ String receivedMessages[num_topics];
 
 // Define NTP parameters
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "<NTP SERVER>", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
+NTPClient timeClient(ntpUDP, "192.168.1.123", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
 
 // Wi-Fi client and MQTT client
 WiFiClient espClient;
@@ -78,12 +78,23 @@ void loop() {
   // Display Eastern time
   lcd.setCursor(0, 0);
   lcd.print("L-");
-  lcd.print(timeClient.getFormattedTime().substring(0, 5)); // Display time HH:MM
+  lcd.print(timeClient.getFormattedTime().substring(0, 8)); // Display time HH:MM
 
   // Display UTC time
-  lcd.setCursor(10, 0);
+  lcd.setCursor(13, 0);
   lcd.print("U-");
-  lcd.print(timeClient.getFormattedTime());
+  //You will have to manually adjust the offset for your timezone and Daylight savings.
+  int offset = 5; // UTC offset for Eastern Time is 5 hours
+  int utcHour = (timeClient.getHours() + offset + 24) % 24; // Adjust for offset and handle negative values
+  if (utcHour < 10) {
+    lcd.print("0"); // Add leading zero if needed
+  }
+  lcd.print(utcHour);
+  lcd.print(":");
+  if (timeClient.getMinutes() < 10) {
+    lcd.print("0"); // Add leading zero if needed
+  }
+  lcd.print(timeClient.getMinutes());
   
   delay(1000); // Adjust delay as needed
 }
@@ -123,3 +134,4 @@ void reconnect() {
     }
   }
 }
+

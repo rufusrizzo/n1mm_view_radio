@@ -4,7 +4,7 @@
 #
 for x in {1..99}
 do
-for i in {1..6}
+for i in {1..3}
 do
 # Define the string of numbers
 #160 is broken on the display

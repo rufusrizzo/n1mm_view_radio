@@ -35,3 +35,9 @@ NTPClient timeClient(ntpUDP, "\<NTP SERVER\>", -5 * 3600, 60000); // UTC offset 
 
 ## Arduino IDE
 I've added so many libraries to my Arduino IDE, make sure you add everything in the include statements at the top of the file.
+### Identify the I2C address
+Load this file:
+identify_i2c_addr.ino
+
+It will print the I2C address of your display on the serial line.
+

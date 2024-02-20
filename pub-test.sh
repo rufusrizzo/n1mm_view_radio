@@ -8,8 +8,7 @@ for i in {1..6}
 do
 # Define the string of numbers
 #160 is broken on the display
-#numbers="160 80 40 30 20 17 15 10 6"
-numbers="80 40 30 20 17 15 10 06"
+numbers="160 80m 40m 30m 20m 17m 15m 10m 06m"
 # Convert the string into an array
 IFS=' ' read -r -a numbers_array <<< "$numbers"
 # Get the length of the array
@@ -22,7 +21,8 @@ random_number=${numbers_array[random_index]}
 
 
 # Display the randomly selected number and publish to the MQTT broker
-mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/$i -m "DIG,B:${random_number}m" 
+#Change your local MQTT info below
+mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/$i -m "DIG,B:${random_number}" 
 echo "Randomly selected number: $random_number"
 done
 sleep 1

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RadioInfo>
+	<app>N1MM</app>
+	<StationName>OTHER_STATION2</StationName>
+	<RadioNr>1</RadioNr>
+	<Freq>360000</Freq>
+	<TXFreq>360000</TXFreq>
+	<Mode>LSB</Mode>
+	<OpCall>KF4EMZ</OpCall>
+	<IsRunning>False</IsRunning>
+	<FocusEntry>263188</FocusEntry>
+	<EntryWindowHwnd>263188</EntryWindowHwnd>
+	<Antenna>-1</Antenna>
+	<Rotors>-1</Rotors>
+	<FocusRadioNr>1</FocusRadioNr>
+	<IsStereo>False</IsStereo>
+	<IsSplit>False</IsSplit>
+	<ActiveRadioNr>1</ActiveRadioNr>
+	<IsTransmitting>False</IsTransmitting>
+	<FunctionKeyCaption></FunctionKeyCaption>
+	<RadioName>FTDX10</RadioName>
+	<AuxAntSelected>-1</AuxAntSelected>
+	<AuxAntSelectedName></AuxAntSelectedName>
+	<IsConnected>True</IsConnected>
+</RadioInfo>

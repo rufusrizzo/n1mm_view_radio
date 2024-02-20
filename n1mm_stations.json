@@ -1,0 +1,29 @@
+{
+  "replacements": {
+    "WINTENDO": {
+      "msn": "DIG",
+      "disp_pos": "1"
+    },
+    "OTHER_STATION2": {
+      "msn": "VCE",
+      "disp_pos": "2"
+    },
+    "OTHER_STATION3": {
+      "msn": "CW",
+      "disp_pos": "3"
+    },
+    "OTHER_STATION4": {
+      "msn": "GTA",
+      "disp_pos": "4"
+    },
+    "OTHER_STATION5": {
+      "msn": "VHF",
+      "disp_pos": "5"
+    },
+    "OTHER_STATION6": {
+      "msn": "WHO",
+      "disp_pos": "6"
+    }
+  }
+}
+

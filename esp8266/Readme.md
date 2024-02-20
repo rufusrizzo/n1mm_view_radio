@@ -23,13 +23,13 @@ https://www.amazon.com/gp/product/B0C1G9GBRZ
 
 Chage the values for your local network.
 <code>
-"<SSID>"  would be changed to "SuperAwesomeContestNet"
+"\<SSID\>"  would be changed to "SuperAwesomeContestNet"
 ETC...
 
-const char* ssid = "<SSID>";
-const char* password = "<Network Key>";
-const char* mqtt_server = "<MQTT Server>";
-NTPClient timeClient(ntpUDP, "<NTP SERVER>", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
+const char* ssid = "\<SSID\>";
+const char* password = "\<Network Key\>";
+const char* mqtt_server = "\<MQTT Server\>";
+NTPClient timeClient(ntpUDP, "\<NTP SERVER\>", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
 </code>
 
 

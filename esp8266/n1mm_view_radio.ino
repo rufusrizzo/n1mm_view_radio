@@ -143,7 +143,7 @@ void reconnect() {
       lcd.setCursor(2, 1);
       lcd.print("DOWN");
       lcd.setCursor(2, 2);
-      lcd.print("IP:");
+      lcd.print("Local IP:");
       lcd.setCursor(2, 3);
       lcd.print(WiFi.localIP());
 
@@ -152,4 +152,3 @@ void reconnect() {
     }
   }
 }
-

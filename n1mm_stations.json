@@ -1,4 +1,11 @@
 {
+  "_comment1": "The first field WINTENDO is the n1mm station name, change this for your local info",
+  "_comment2": "Also OTHER_STATION# for different local n1mm stations",
+  "_comment3": "Each station has a <msn> that means MQTT StationName",
+  "_comment4": "The msn value <DIG,VCE,CW, etc> will be displayed on the i2c display",
+  "_comment5": "The msn value can only be 3 characters to line up correctly",
+  "_comment6": "The value of <disp_pos> is where it will show up on the i2c display",
+  "_comment7": "<disp_pos> keeps that station in the same spot of the display always",
   "replacements": {
     "WINTENDO": {
       "msn": "DIG",

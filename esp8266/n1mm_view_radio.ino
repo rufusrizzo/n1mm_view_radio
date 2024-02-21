@@ -14,7 +14,7 @@ const char* ssid = "<SSID>";
 const char* password = "<Network Key>";
 
 // Define MQTT parameters
-const char* mqtt_server = "<MQTT Server>";
+const char* mqtt_server = "<MQTT Server IP>";
 const int mqtt_port = 1883;
 const char* mqtt_topic = "n1mm_radio/stations";
 const int num_topics = 6;
@@ -30,9 +30,9 @@ String receivedMessages[num_topics];
 
 // Define NTP parameters
 WiFiUDP ntpUDP;
-NTPClient timeClient(ntpUDP, "<NTP SERVER>", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
+NTPClient timeClient(ntpUDP, "<NTP Server>", -5 * 3600, 60000); // UTC offset for Eastern Time is -5 hours (-5 * 3600 seconds)
 
-// Wi-Fi client and MQTT client, you can change these to ID each device
+// Wi-Fi client and MQTT client
 WiFiClient espClient;
 PubSubClient client(espClient);
 
@@ -43,6 +43,10 @@ void callback(char* topic, byte* payload, unsigned int length);
 void setup() {
   Serial.begin(115200);
   WiFi.begin(ssid, password);
+  // Print WiFi status
+  Serial.println();
+  Serial.print("WiFi connected, IP address: ");
+  Serial.println(WiFi.localIP());
 
   // Initialize LCD
   lcd.init();
@@ -65,7 +69,6 @@ void loop() {
     reconnect();
   }
   client.loop();
-
   // Handle MQTT messages
   for (int i = 0; i < num_topics; i++) {
     lcd.setCursor(i % 2 * 11, i / 2 + 1);
@@ -130,7 +133,22 @@ void reconnect() {
       Serial.print("failed, rc=");
       Serial.print(client.state());
       Serial.println(" try again in 5 seconds");
+      Serial.println();
+      Serial.print("WiFi connected, IP address: ");
+      Serial.println(WiFi.localIP());
+
+      lcd.clear();
+      lcd.setCursor(2, 0);
+      lcd.print("Server");
+      lcd.setCursor(2, 1);
+      lcd.print("DOWN");
+      lcd.setCursor(2, 2);
+      lcd.print("IP:");
+      lcd.setCursor(2, 3);
+      lcd.print(WiFi.localIP());
+
       delay(5000);
+      lcd.clear();
     }
   }
 }

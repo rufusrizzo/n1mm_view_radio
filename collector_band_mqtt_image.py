@@ -3,9 +3,12 @@ import json
 import xml.etree.ElementTree as ET
 import paho.mqtt.client as mqtt
 import time
+# Image generation
+import pandas as pd
+import matplotlib.pyplot as plt
 
 # This sets how often the script will check for offline stations.
-interval = 300
+interval = 10
 
 # Define MQTT broker settings
 broker_address = "127.0.0.1"
@@ -15,8 +18,12 @@ topic_prefix = "n1mm_radio/stations/"
 start_time = time.time()
 
 
-# Dictionary to store time_station variables
+# Dictionary to store MQTT variables
 time_stations = {i: None for i in range(1, 7)}
+mqtt_sn = {i: None for i in range(1, 7)}
+mqtt_band = {i: None for i in range(1, 7)}
+mqtt_op = {i: None for i in range(1, 7)}
+mqtt_mode = {i: None for i in range(1, 7)}
 
 # Read config file
 with open("n1mm_stations.json", "r") as f:
@@ -30,6 +37,14 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to MQTT broker with result code " + str(rc))
     for i in range(1, 7):
         client.subscribe(topic_prefix + str(i) + "/time")
+    #for i in range(1, 7):
+    #    client.subscribe(topic_prefix + str(i) + "/sn")
+    #for i in range(1, 7):
+    #    client.subscribe(topic_prefix + str(i) + "/band")
+    #for i in range(1, 7):
+    #    client.subscribe(topic_prefix + str(i) + "/op")
+    #for i in range(1, 7):
+    #    client.subscribe(topic_prefix + str(i) + "/mode")
 
 # Callback function for MQTT message received
 def on_message(client, userdata, message):
@@ -37,6 +52,40 @@ def on_message(client, userdata, message):
     payload = message.payload.decode()
     station_number = int(topic.split("/")[-2])
     time_stations[station_number] = payload
+
+
+# Sample data (replace this with data from MQTT topics)
+def gen_image():
+    image_data = {
+        'Time': ['16:17', '16:18', '16:19', '16:19', '16:19', '16:19'],  # Same length as other lists
+        'Station Name': ['Wintendo', 'CWBOX', 'VOICEBOX', 'BLAMMO', 'GetOnTheAir', 'SMACKO'],
+        'Operator': ['KF4EMZ', 'KQ4IFF', 'KC4YCQ', 'K9SA', 'KD4ADL', 'N3JDP'],
+        'Mode': ['DIG', 'CW', 'VCE', 'DIG2', 'GTA', 'VCE2'],
+        'Band': [10, 15, 20, 40, 80, 160]
+    }
+
+    # Create DataFrame from data
+    df = pd.DataFrame(image_data)
+
+    # Create a table plot
+    plt.figure(figsize=(12, 8))
+    table = plt.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center', colColours=['lightblue']*len(df.columns))
+    table.auto_set_font_size(False)
+    table.set_fontsize(18)
+    #table.scale(1.5, 1.5)  # Increase font size
+    table.scale(3.5, 3.5)  # Increase font size
+
+    # Bold text
+    for i in range(len(df.columns)):
+        table[(0, i)].get_text().set_weight('bold')
+
+    plt.axis('off')  # Hide axis
+    plt.title('QSO Operators Table', fontsize=16)
+    plt.box(on=None)  # Remove box around table
+    plt.gca().set_facecolor('black')  # Set background color to black
+    plt.savefig('/tmp/operators_radio_status_table.png', bbox_inches='tight', transparent=True)
+    plt.show()
+
 
 # Initialize MQTT client
 client = mqtt.Client()
@@ -132,6 +181,9 @@ while True:
                 if current_time - time_station_float > interval + 5:
                     print(f"Station {station_number} appears offline")
                     client.publish(f"n1mm_radio/stations/{station_number}", " OFFLINE ", retain=True)
+        # Generate the image of the station status
+        print("Generating the status image")
+        gen_image()
         # Reset the start time for the next interval
         start_time = current_time
 

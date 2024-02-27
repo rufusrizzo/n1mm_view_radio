@@ -22,7 +22,10 @@ random_number=${numbers_array[random_index]}
 
 # Display the randomly selected number and publish to the MQTT broker
 #Change your local MQTT info below
-mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/$i -m "DIG,B:${random_number}" 
+mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/1 -m "VCE,B:${random_number}" 
+mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/2 -m "DIG,B:${random_number}" 
+mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/3 -m " CW,B:${random_number}" 
+mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/6 -m "GTA,B:${random_number}" 
 echo "Randomly selected number: $random_number"
 done
 sleep 1

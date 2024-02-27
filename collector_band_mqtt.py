@@ -2,12 +2,21 @@ import socket
 import json
 import xml.etree.ElementTree as ET
 import paho.mqtt.client as mqtt
+import time
+
+# This sets how often the script will check for offline stations.
+interval = 300
 
 # Define MQTT broker settings
 broker_address = "127.0.0.1"
 broker_port = 1883
 topic_prefix = "n1mm_radio/stations/"
-topic = "n1mm_radio/stations/6"
+
+start_time = time.time()
+
+
+# Dictionary to store time_station variables
+time_stations = {i: None for i in range(1, 7)}
 
 # Read config file
 with open("n1mm_stations.json", "r") as f:
@@ -19,13 +28,26 @@ replacements = config.get("replacements", {})
 # Callback function for MQTT connection
 def on_connect(client, userdata, flags, rc):
     print("Connected to MQTT broker with result code " + str(rc))
+    for i in range(1, 7):
+        client.subscribe(topic_prefix + str(i) + "/time")
+
+# Callback function for MQTT message received
+def on_message(client, userdata, message):
+    topic = message.topic
+    payload = message.payload.decode()
+    station_number = int(topic.split("/")[-2])
+    time_stations[station_number] = payload
 
 # Initialize MQTT client
 client = mqtt.Client()
 client.on_connect = on_connect
+client.on_message = on_message
 
 # Connect to MQTT broker
 client.connect(broker_address, broker_port, 60)
+
+# Start the MQTT client loop
+client.loop_start()
 
 port = 12061
 s = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
@@ -82,18 +104,33 @@ while True:
     if freq == 0:
         band=("NA")
 
+    # Get the current time
+    current_time_hr = time.strftime("%m-%d-%Y %H:%M:%S", time.localtime())
+
     # Print the value
-    print("Station Name:", sn,"| Xlated Name:", msn,  "| Operator:", oc, "| Frequency:", freq, "| Band:", band)
+    print(current_time_hr, "| Station Name:", sn, "| Xlated Name:", msn, "| Operator:", oc, "| Frequency:", freq, "| Band:", band)
     mfreq = int(str(freq)[:-2])
     topic = topic_prefix + disp_pos
 
+    # Publish time to MQTT broker
+    client.publish(topic_prefix + f"{disp_pos}/time", time.time(), retain=True)
+
     # Publish data to MQTT broker
     client.publish(topic, f"{msn},B:{band}", retain=True)
+
+    # Checking the checkin time for each station
+    current_time = time.time()
+    elapsed_time = current_time - start_time
+    if elapsed_time >= interval:
+        for station_number, time_station in time_stations.items():
+            if time_station is not None:
+                time_station_float = float(time_station)
+                if current_time - time_station_float > interval + 5:
+                    print(f"Station {station_number} appears offline")
+                    client.publish(f"n1mm_radio/stations/{station_number}", " OFFLINE ", retain=True)
+        # Reset the start time for the next interval
+        start_time = current_time
+
     # Unsetting the band
     band = "null"
-
-# Run the MQTT client loop in a non-blocking manner
-client.loop_start()
-
-
 

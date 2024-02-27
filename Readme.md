@@ -13,8 +13,8 @@ If I can I'd like to also display a graphic on a n1mm_view page to see the stati
 - [ ] MQTT broker settings and howto
 - [X] Post the data to multiple MQTT Topics, one for each OpStation
 - [ ] Add an option to limit the display to 3 stations, and show band plan
-- [ ] Track time since last update, send Char to display
-- [ ] Change band to show offline if no updates in 45min
+- [x] Track time since last update, send Char to display
+- [X] Change band to show offline if no updates in 45min
 - [ ] Document the esp8266 HW
 - [ ] Document usage for others
 - [ ] Document how to change the timezone in 2 places

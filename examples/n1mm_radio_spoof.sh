@@ -18,6 +18,6 @@ for FILE in `ls -ltr *.xml | awk '{print $9}' | shuf`
 	do
 	cat $FILE | nc -u -w1 $HOST $PORT
 	
-	sleep 5
+#	sleep 5
 done
 

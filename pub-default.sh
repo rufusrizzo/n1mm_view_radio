@@ -6,8 +6,9 @@
 for i in {1..6}
 do
 mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/$i -m "                 "
+mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/${i}/time -m ""
 done
-sleep 60
+sleep 6
 for i in {1..6}
 do
 mosquitto_pub -h 127.0.0.1 -p 1883 -r -t n1mm_radio/stations/$i -m "    NS"

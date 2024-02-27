@@ -18,5 +18,6 @@ If I can I'd like to also display a graphic on a n1mm_view page to see the stati
 - [ ] Document the esp8266 HW
 - [ ] Document usage for others
 - [ ] Document how to change the timezone in 2 places
-- [ ] Generate n1mm_view images with Radio Data
+- [x] Generate n1mm_view images with Radio Data
+- [ ] Document how to copy the image to the n1mm_view image dir
 

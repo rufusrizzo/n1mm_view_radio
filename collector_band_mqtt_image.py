@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # This sets how often the script will check for offline stations.
-interval = 10
+interval = 300
 
 # Define MQTT broker settings
 broker_address = "127.0.0.1"
@@ -37,31 +37,36 @@ def on_connect(client, userdata, flags, rc):
     print("Connected to MQTT broker with result code " + str(rc))
     for i in range(1, 7):
         client.subscribe(topic_prefix + str(i) + "/time")
-    #for i in range(1, 7):
-    #    client.subscribe(topic_prefix + str(i) + "/sn")
-    #for i in range(1, 7):
-    #    client.subscribe(topic_prefix + str(i) + "/band")
-    #for i in range(1, 7):
-    #    client.subscribe(topic_prefix + str(i) + "/op")
-    #for i in range(1, 7):
-    #    client.subscribe(topic_prefix + str(i) + "/mode")
+        client.subscribe(topic_prefix + str(i) + "/sn")
+        client.subscribe(topic_prefix + str(i) + "/band")
+        client.subscribe(topic_prefix + str(i) + "/op")
+        client.subscribe(topic_prefix + str(i) + "/mode")
 
 # Callback function for MQTT message received
 def on_message(client, userdata, message):
     topic = message.topic
     payload = message.payload.decode()
     station_number = int(topic.split("/")[-2])
-    time_stations[station_number] = payload
+    if topic.endswith("/time"):
+        time_stations[station_number] = payload
+    elif topic.endswith("/sn"):
+        mqtt_sn[station_number] = payload
+    elif topic.endswith("/band"):
+        mqtt_band[station_number] = payload
+    elif topic.endswith("/op"):
+        mqtt_op[station_number] = payload
+    elif topic.endswith("/mode"):
+        mqtt_mode[station_number] = payload
 
 
 # Sample data (replace this with data from MQTT topics)
 def gen_image():
     image_data = {
-        'Time': ['16:17', '16:18', '16:19', '16:19', '16:19', '16:19'],  # Same length as other lists
-        'Station Name': ['Wintendo', 'CWBOX', 'VOICEBOX', 'BLAMMO', 'GetOnTheAir', 'SMACKO'],
-        'Operator': ['KF4EMZ', 'KQ4IFF', 'KC4YCQ', 'K9SA', 'KD4ADL', 'N3JDP'],
-        'Mode': ['DIG', 'CW', 'VCE', 'DIG2', 'GTA', 'VCE2'],
-        'Band': [10, 15, 20, 40, 80, 160]
+        'Time': [time.strftime("%m-%d-%Y %H:%M:%S", time.localtime()) for _ in range(6)],  # Current time for all stations
+        'Station Name': [mqtt_sn[i] for i in range(1, 7)],
+        'Operator': [mqtt_op[i] for i in range(1, 7)],
+        'Mode': [mqtt_mode[i] for i in range(1, 7)],
+        'Band': [mqtt_band[i] for i in range(1, 7)]
     }
 
     # Create DataFrame from data
@@ -72,7 +77,6 @@ def gen_image():
     table = plt.table(cellText=df.values, colLabels=df.columns, loc='center', cellLoc='center', colColours=['lightblue']*len(df.columns))
     table.auto_set_font_size(False)
     table.set_fontsize(18)
-    #table.scale(1.5, 1.5)  # Increase font size
     table.scale(3.5, 3.5)  # Increase font size
 
     # Bold text
@@ -189,4 +193,3 @@ while True:
 
     # Unsetting the band
     band = "null"
-

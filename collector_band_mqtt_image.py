@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # This sets how often the script will check for offline stations.
-interval = 3
+interval = 300
 
 # Define MQTT broker settings
 broker_address = "127.0.0.1"

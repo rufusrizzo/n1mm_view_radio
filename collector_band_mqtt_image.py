@@ -8,7 +8,7 @@ import pandas as pd
 import matplotlib.pyplot as plt
 
 # This sets how often the script will check for offline stations.
-interval = 300
+interval = 3
 
 # Define MQTT broker settings
 broker_address = "127.0.0.1"
@@ -185,6 +185,7 @@ while True:
                 if current_time - time_station_float > interval + 5:
                     print(f"Station {station_number} appears offline")
                     client.publish(f"n1mm_radio/stations/{station_number}", " OFFLINE ", retain=True)
+                    client.publish(f"n1mm_radio/stations/{station_number}/band", " OFFLINE ", retain=True)
         # Generate the image of the station status
         print("Generating the status image")
         gen_image()

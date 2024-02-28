@@ -20,5 +20,7 @@ If I can I'd like to also display a graphic on a n1mm_view page to see the stati
 - [ ] Document how to change the timezone in 2 places
 - [x] Generate n1mm_view images with Radio Data
 - [ ] Document how to copy the image to the n1mm_view image dir
-- [ ] Add offline to the image topic
+- [X] Add offline to the image topic
+- [ ] Add adafruit 16x32 LED matrix code
+- [ ] Add adafruit 16x32 LED matrix HW docs
 

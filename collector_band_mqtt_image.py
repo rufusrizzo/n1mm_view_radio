@@ -1,3 +1,10 @@
+#!/usr/bin/python3
+"""
+n1mm_view radio
+This program collects N1MM+ "Radio Info" broadcasts and saves data from the broadcasts
+in MQTT and generates an image of the radio status
+"""
+
 import socket
 import json
 import xml.etree.ElementTree as ET

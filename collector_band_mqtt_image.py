@@ -94,7 +94,7 @@ def gen_image():
     plt.title('QSO Operators Table', fontsize=16)
     plt.box(on=None)  # Remove box around table
     plt.gca().set_facecolor('black')  # Set background color to black
-    plt.savefig('/tmp/operators_radio_status_table.png', bbox_inches='tight', transparent=True)
+    plt.savefig('/mnt/ramdisk/n1mm_view/html/operators_radio_status_table.png', bbox_inches='tight', transparent=True)
     plt.show()
 
 

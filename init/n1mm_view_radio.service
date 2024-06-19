@@ -1,0 +1,25 @@
+#
+# /lib/systemd/system/n1mm_view_radio.service
+#
+# systemd startup file for n1mm_view radio process
+#
+
+[Unit]
+Description=N1MM View Radio process
+After=gettty@tty2.service
+
+[Service]
+User=pi
+Group=pi
+Type=simple
+WorkingDirectory=/home/pi/n1mm_view_radio
+ExecStart=/home/pi/n1mm_view_radio/collector_band_mqtt_image.py
+Restart=always
+RestartSec=30
+StandardInput=syslog
+StandardOutput=syslog
+StandardError=syslog
+
+[Install]
+WantedBy=default.target
+

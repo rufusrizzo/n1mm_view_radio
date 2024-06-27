@@ -12,10 +12,11 @@ If I can I'd like to also display a graphic on a n1mm_view page to see the stati
 - [x] Get a ESP8266 Reading the data from the MQTT Broker
 - [ ] MQTT broker settings and howto
 - [X] Post the data to multiple MQTT Topics, one for each OpStation
-- [ ] Add an option to limit the display to 3 stations, and show band plan
+- [ ] Add an option to limit the display to 4 stations, and show band plan
 - [x] Track time since last update, send Char to display
 - [X] Change band to show offline if no updates in 45min
 - [ ] Document the esp8266 HW
+- [ ] Document the Summary Stats post to mqtt
 - [ ] Document usage for others
 - [ ] Document how to change the timezone in 2 places
 - [x] Generate n1mm_view images with Radio Data

@@ -35,7 +35,7 @@ conn.close()
 count_9, count_5, count_1 = results
 
 # Output the results for debugging purposes
-print(f"Digital QSO Summary: {count_9}")
+print(f"Data QSO Summary: {count_9}")
 print(f"Phone QSO Summary: {count_5}")
 print(f"CW QSO Summary: {count_1}")
 
@@ -49,7 +49,7 @@ def publish_mqtt(topic, message):
     client.disconnect()
 
 # Publish the results to separate MQTT topics
-publish_mqtt(f"{MQTT_TOPIC_BASE}/data_sum", count_9)
-publish_mqtt(f"{MQTT_TOPIC_BASE}/phone_sum", count_5)
-publish_mqtt(f"{MQTT_TOPIC_BASE}/cw_sum", count_1)
+publish_mqtt(f"{MQTT_TOPIC_BASE}/data_total", count_9)
+publish_mqtt(f"{MQTT_TOPIC_BASE}/phone_total", count_5)
+publish_mqtt(f"{MQTT_TOPIC_BASE}/cw_total", count_1)
 

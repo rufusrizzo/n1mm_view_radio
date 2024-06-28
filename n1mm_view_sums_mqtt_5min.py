@@ -6,7 +6,7 @@ from datetime import datetime
 
 
 # Path to your SQLite database file
-database_file = 'n1mm_view.db'
+database_file = '../n1mm_view/n1mm_view.db'
 
 # MQTT configuration
 MQTT_BROKER = '192.168.1.202'
@@ -43,9 +43,9 @@ def fetch_and_publish_data():
         # Output the results for debugging purposes
         current_datetime = datetime.now()
         print("Run Time:", current_datetime)
-        print(f"Count where mode_id = 9: {count_9}")
-        print(f"Count where mode_id = 5: {count_5}")
-        print(f"Count where mode_id = 1: {count_1}")
+        print(f"Data QSOs Summary: {count_9}")
+        print(f"Phone QSOs Summary: {count_5}")
+        print(f"CW QSOs Summary: {count_1}")
 
         # Function to publish MQTT messages
         def publish_mqtt(topic, message):
@@ -57,15 +57,15 @@ def fetch_and_publish_data():
             client.disconnect()
 
         # Publish the results to separate MQTT topics
-        publish_mqtt(f"{MQTT_TOPIC_BASE}/count_9", str(count_9))
-        publish_mqtt(f"{MQTT_TOPIC_BASE}/count_5", str(count_5))
-        publish_mqtt(f"{MQTT_TOPIC_BASE}/count_1", str(count_1))
+        publish_mqtt(f"{MQTT_TOPIC_BASE}/data_total", str(count_9))
+        publish_mqtt(f"{MQTT_TOPIC_BASE}/phone_total", str(count_5))
+        publish_mqtt(f"{MQTT_TOPIC_BASE}/cw_total", str(count_1))
 
     except Exception as e:
         print(f"Error fetching or publishing data: {e}")
 
 # Schedule the function to run every 5 minutes
-schedule.every(5).minutes.do(fetch_and_publish_data)
+schedule.every(1).minutes.do(fetch_and_publish_data)
 
 # Run the scheduler indefinitely
 while True:

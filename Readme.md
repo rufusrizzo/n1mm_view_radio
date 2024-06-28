@@ -3,6 +3,7 @@ I like the n1mm_view project, but I wanted to add Radio info to it.
 This will listen on a UDP port and do stuff with the N1MM data. 
 My goal is to display multiple stations Band status on a small display during field day.
 If I can I'd like to also display a graphic on a n1mm_view page to see the stations's band status.
+This requires you have a MQTT server and Wifi, the displays are NOT wired network.  We used Ubiquiti mesh devices to provide a long range network for Field Day.
 
 
 #ToDo

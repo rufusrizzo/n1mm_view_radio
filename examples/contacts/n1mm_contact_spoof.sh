@@ -19,7 +19,8 @@ for FILE in `cat calls.txt | shuf`
 	do
 	DDATEE=`date +'%Y-%m-%d %H:%M:%S'`
 	random_hex=$(head -c 17 /dev/urandom | xxd -p | tr -d '\n' | cut -c 1-33)
-	cat n1mm_contact_template.xml | sed "s/REMOTECALLL/$FILE/g" | sed "s/TIMESTAMPPP/$DDATEE/g" | sed "s/IDDDD/$random_hex/g" | nc -u -w1 $HOST $PORT
+	OPERATORRRR=`grep -v $FILE calls.txt | shuf | tail -1`
+	cat n1mm_contact_template.xml | sed "s/OPERATORR/$OPERATORRRR/g" | sed "s/REMOTECALLL/$FILE/g" | sed "s/TIMESTAMPPP/$DDATEE/g" | sed "s/IDDDD/$random_hex/g" | nc -u -w1 $HOST $PORT
 	
 #	sleep 5
 done

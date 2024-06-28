@@ -1,3 +1,10 @@
+#!/usr/bin/python3
+"""
+n1mm_view Stats to MQTT
+This program collects N1MM+ "Contact Info" broadcasts and saves data from the broadcasts
+in MQTT 
+Started by Riley C and ChatGPT on 6/28/2024
+"""
 import sqlite3
 import paho.mqtt.client as mqtt
 

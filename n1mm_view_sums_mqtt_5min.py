@@ -1,3 +1,10 @@
+"""
+n1mm_view Stats to MQTT
+This program collects N1MM+ "Contact Info" broadcasts and saves data from the broadcasts
+in MQTT every 5 minutes and keeps running
+Started by Riley C and ChatGPT on 6/28/2024
+"""
+
 import sqlite3
 import paho.mqtt.client as mqtt
 import time
@@ -82,5 +89,5 @@ while True:
         publish_mqtt(f"{MQTT_TOPIC_BASE}/top_op_{i}", f"{operator_name}: {count}")
 
     # Wait for 5 minutes before running the loop again
-    time.sleep(30)
+    time.sleep(300)
 

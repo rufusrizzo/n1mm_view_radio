@@ -10,6 +10,7 @@ If I can I'd like to also display a graphic on a n1mm_view page to see the stati
 - [x] Format and print to the terminal
 - [x] Post the data to MQTT broker
 - [x] Get a ESP8266 Reading the data from the MQTT Broker
+- [ ] A Way to display if a station isn't sending Contact logs
 - [ ] MQTT broker settings and howto
 - [X] Post the data to multiple MQTT Topics, one for each OpStation
 - [ ] Add an option to limit the display to 4 stations, and show band plan
